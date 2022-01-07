@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Login.css";
+import axios from "axios";
 
 export default function Login() {
   const obj = {
@@ -13,6 +14,10 @@ export default function Login() {
     setUser({ ...user, [name]: value });
   };
 
+  const login=(e)=>{
+    axios.post("http://localhost:8000/login",user)
+    .then(res=>console.log(res))
+  }
   return (
     <div className="login">
         {console.log(user)}
@@ -37,7 +42,7 @@ export default function Login() {
               className="loginInput"
               onChange={handleChange}
             />
-            <button className="loginButton">Login</button>
+            <button className="loginButton" onClick={login}>Login</button>
             <span className="loginForgot">Forgot Password?</span>
             <button className="loginRegisterButton">
               Create a New Account
