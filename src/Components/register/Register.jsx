@@ -5,7 +5,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {
+
   const navigate = useNavigate();
+
   const obj = {
     name: "",
     email: "",
@@ -14,26 +16,31 @@ export default function Register() {
   };
   const [user, setUser] = useState(obj);
 
+  //changin input value
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
 
+
+  //Register the user
   const registerFunction = () => {
     const { name, email, password, reEnterPassword } = user;
-    if (name && email && password && password === reEnterPassword) {
-      //alert("posted")
+    if (name && email && password && (password === reEnterPassword)) {
       axios.post("http://localhost:8000/register", user).then((res) => {
-        console.log(res);
+        if(!res.user){
+          alert(res.data.message);
+        }
+         navigate('/')
+        
       });
     } else {
-      //alert("invalid input")
+      alert("Please Fill the correct value")
     }
   };
 
   return (
     <div className="login">
-      {console.log(user)}
       <div className="loginWrapper">
         <div className="loginLeft">
           <h3 className="loginLogo">Dhanam</h3>

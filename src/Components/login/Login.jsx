@@ -4,30 +4,45 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
 export default function Login( {setLoginUser}) {
+
   const navigate = useNavigate();
+
   const obj = {
     email: "",
     password: "",
   };
   const [user, setUser] = useState(obj);
 
+
+  //setting input data
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
 
+
+  //login
   const login = (e) => {
-    axios
+    if(!user.email || !user.password){
+      alert("Please enter value")
+    }
+      axios
       .post("http://localhost:8000/login", user)
       .then((res) => {
-        //alert(res.data.message)
-        setLoginUser(res.data.user)
-        navigate('/')
+        if(!res.data.user){
+          alert(res.data.message)
+        }
+          setLoginUser(res.data.user)
+          navigate('/')
+
       });
+    
+    
   };
+
+
   return (
     <div className="login">
-      {console.log(user)}
       <div className="loginWrapper">
         <div className="loginLeft">
           <h3 className="loginLogo">Dhanam</h3>

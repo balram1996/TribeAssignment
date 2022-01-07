@@ -8,6 +8,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+//connecting the database
 mongoose.connect(
   "mongodb+srv://balram:anju@cluster0.8rd1h.mongodb.net/tribeuserbase?retryWrites=true&w=majority",
   {
@@ -19,12 +20,11 @@ mongoose.connect(
   }
 );
 
-//const authRoute = require("./routes/auth");
 
 app.use(express());
 
-//app.use("/",authRoute)
 
+//Creating the schema
 const UserSchema = new mongoose.Schema({
   name: String,
   email: String,
@@ -66,7 +66,7 @@ app.post("/register", (req, res) => {
         if (err) {
           res.send(err);
         } else {
-          res.send({ message: "successfully registered" });
+          res.send({ message: "successfully registered, please login now" });
         }
       });
     }
@@ -77,4 +77,3 @@ app.listen(port, () => {
   console.log(`server is runnig on port ${port}`);
 });
 
-//mongodb://localhost:27017/triberegistration
