@@ -2,8 +2,10 @@ import React from "react";
 import "./Register.css";
 import react, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
+  const navigate = useNavigate();
   const obj = {
     name: "",
     email: "",
@@ -11,28 +13,27 @@ export default function Register() {
     reEnterPassword: "",
   };
   const [user, setUser] = useState(obj);
-   
-  const handleChange=(e)=>{
-    const {name, value} = e.target
-    setUser({...user,[name]:value})
-  }
 
- const registerFunction=()=>{
-    const {name,email,password,reEnterPassword} = user;
-     if(name && email && password && (password === reEnterPassword)){
-       //alert("posted")
-      axios.post("http://localhost:8000/register" ,user)
-      .then(res =>{console.log(res)})
-     }
-     else{
-       //alert("invalid input")
-     }
-   
- }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUser({ ...user, [name]: value });
+  };
+
+  const registerFunction = () => {
+    const { name, email, password, reEnterPassword } = user;
+    if (name && email && password && password === reEnterPassword) {
+      //alert("posted")
+      axios.post("http://localhost:8000/register", user).then((res) => {
+        console.log(res);
+      });
+    } else {
+      //alert("invalid input")
+    }
+  };
 
   return (
     <div className="login">
-        {console.log(user)}
+      {console.log(user)}
       <div className="loginWrapper">
         <div className="loginLeft">
           <h3 className="loginLogo">Dhanam</h3>
@@ -73,8 +74,15 @@ export default function Register() {
               className="loginInput"
               onChange={handleChange}
             />
-            <button className="loginButton" onClick={registerFunction}>Sign Up</button>
-            <button className="loginRegisterButton" >Log into Account</button>
+            <button className="loginButton" onClick={registerFunction}>
+              Sign Up
+            </button>
+            <button
+              className="loginRegisterButton"
+              onClick={() => navigate("/login")}
+            >
+              Log into Account
+            </button>
           </div>
         </div>
       </div>

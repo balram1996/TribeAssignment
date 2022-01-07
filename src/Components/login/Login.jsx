@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import "./Login.css";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
-export default function Login() {
+export default function Login( {setLoginUser}) {
+  const navigate = useNavigate();
   const obj = {
     email: "",
     password: "",
@@ -14,13 +16,18 @@ export default function Login() {
     setUser({ ...user, [name]: value });
   };
 
-  const login=(e)=>{
-    axios.post("http://localhost:8000/login",user)
-    .then(res=>console.log(res))
-  }
+  const login = (e) => {
+    axios
+      .post("http://localhost:8000/login", user)
+      .then((res) => {
+        //alert(res.data.message)
+        setLoginUser(res.data.user)
+        navigate('/')
+      });
+  };
   return (
     <div className="login">
-        {console.log(user)}
+      {console.log(user)}
       <div className="loginWrapper">
         <div className="loginLeft">
           <h3 className="loginLogo">Dhanam</h3>
@@ -42,9 +49,14 @@ export default function Login() {
               className="loginInput"
               onChange={handleChange}
             />
-            <button className="loginButton" onClick={login}>Login</button>
+            <button className="loginButton" onClick={login}>
+              Login
+            </button>
             <span className="loginForgot">Forgot Password?</span>
-            <button className="loginRegisterButton">
+            <button
+              className="loginRegisterButton"
+              onClick={() => navigate("/register")}
+            >
               Create a New Account
             </button>
           </div>
